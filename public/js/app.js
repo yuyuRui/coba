@@ -341,6 +341,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Navbar",
   data: function data() {
@@ -53050,29 +53051,32 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.$store.getters.data.user !== null &&
-    _vm.$store.getters.data.user !== ""
+  return _vm.$store.getters.data.user !== null
     ? _c(
         "div",
         { staticClass: "coba-navbar coba-full-width" },
-        _vm._l(_vm.nav, function(nav_item) {
-          return _c(
-            "router-link",
-            { key: nav_item.name, attrs: { to: nav_item.mainURL } },
-            [
-              _c(
-                "div",
-                [
-                  _c("b-icon", {
-                    attrs: { icon: nav_item.icon, "font-scale": "2" }
-                  })
-                ],
-                1
-              )
-            ]
-          )
-        }),
-        1
+        [
+          _vm._l(_vm.nav, function(nav_item) {
+            return _c(
+              "router-link",
+              { key: nav_item.name, attrs: { to: nav_item.mainURL } },
+              [
+                _c(
+                  "div",
+                  [
+                    _c("b-icon", {
+                      attrs: { icon: nav_item.icon, "font-scale": "2" }
+                    })
+                  ],
+                  1
+                )
+              ]
+            )
+          }),
+          _vm._v(" "),
+          _c("b-icon", { attrs: { icon: "list" } })
+        ],
+        2
       )
     : _c(
         "div",
@@ -72206,6 +72210,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_0__["default"].Store({
       })["catch"](function (error) {
         console.log(error);
         state.data.user = null;
+        state.ready--;
         localStorage.removeItem('token');
       });
     },
@@ -72224,7 +72229,6 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_0__["default"].Store({
       })["catch"](function (error) {
         console.log(error);
         state.data.locations = null;
-        localStorage.removeItem('token');
       });
     },
     clearData: function clearData(state) {

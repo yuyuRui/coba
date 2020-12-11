@@ -2,11 +2,13 @@
 
 
 namespace App\Http\Controllers;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Passport\Passport;
 
 
 class AuthController extends ParentController
@@ -14,10 +16,18 @@ class AuthController extends ParentController
     public function login(Request $request){
         if(Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')], true)){
             $user = Auth::user();
+
+            Passport::tokensExpireIn(now()->addMinutes(1));
+            Passport::refreshTokensExpireIn(now()->addMinutes(1));
+            Passport::personalAccessTokensExpireIn(now()->addMinutes(1));
+
             $tokenResult = $user->createToken('Personal Access Token');
             $token = $tokenResult->token;
             $token->save();
+
+            $success['expires_in'] = $tokenResult->token->expires_at->diffInSeconds(Carbon::now());
             $success['token'] =  $tokenResult->accessToken;
+            $success['token_type'] =  "Bearer";
             return response()->json(['success' => $success], ParentController::$successCode);
         }
         else{
@@ -46,6 +56,9 @@ class AuthController extends ParentController
         $user->firstName = $input['firstName'];
         $user->lastName = $input['lastName'];
         $user->save();
+
+        Passport::tokensExpireIn(Carbon::now()->addDays(30));
+        Passport::refreshTokensExpireIn(Carbon::now()->addDays(60));
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;
         $token->save();

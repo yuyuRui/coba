@@ -1,8 +1,9 @@
 <template>
-    <div class="coba-navbar coba-full-width"  v-if="$store.getters.data.user !== null && $store.getters.data.user !== ''">
+    <div class="coba-navbar coba-full-width"  v-if="$store.getters.data.user !== null">
         <router-link v-for="nav_item in nav" v-bind:to="nav_item.mainURL" v-bind:key="nav_item.name">
             <div><b-icon :icon="nav_item.icon" font-scale="2"></b-icon></div>
         </router-link>
+        <b-icon icon="list"></b-icon>
     </div>
     <div v-else class="coba-navbar coba-full-width">
         <router-link v-for="nav_item in nav_login" v-bind:to="nav_item.mainURL" v-bind:key="nav_item.name">

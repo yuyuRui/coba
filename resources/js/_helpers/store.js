@@ -27,6 +27,7 @@ export const store = new Vuex.Store({
                 .catch(error => {
                     console.log(error);
                     state.data.user = null;
+                    state.ready--;
                     localStorage.removeItem('token')
                 })
 
@@ -47,7 +48,6 @@ export const store = new Vuex.Store({
                 .catch(error => {
                     console.log(error);
                     state.data.locations = null;
-                    localStorage.removeItem('token')
                 })
 
         },
